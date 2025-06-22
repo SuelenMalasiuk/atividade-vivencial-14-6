@@ -26,9 +26,7 @@ Sprite::~Sprite() {
 }
 
 void Sprite::setupMesh() {
-    // Quad de 1x1 — vai ser escalado na model matrix
     float vertices[] = {
-        // positions   // texture coords
         0.0f, 0.0f,    0.0f, 0.0f,
         1.0f, 0.0f,    1.0f, 0.0f,
         1.0f, 1.0f,    1.0f, 1.0f,
@@ -101,7 +99,7 @@ void Sprite::Draw(const glm::mat4& projection) {
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
-    model = glm::translate(model, glm::vec3(-0.5f * scale.x, -0.5f * scale.y, 0.0f)); // centraliza
+    model = glm::translate(model, glm::vec3(-0.5f * scale.x, -0.5f * scale.y, 0.0f));
     model = glm::rotate(model, glm::radians(rotation), glm::vec3(0, 0, 1));
     model = glm::scale(model, glm::vec3(scale.x, scale.y, 1.0f));
 

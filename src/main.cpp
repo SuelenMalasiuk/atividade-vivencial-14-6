@@ -7,9 +7,9 @@
 
 #include "Sprite.h"
 
-// --- Globals ---
+
 GLFWwindow* window;
-GLuint shaderProgram;  // Assuma que você já tem o shader compilado e linkado
+GLuint shaderProgram;
 Sprite* player;
 
 struct Layer {
@@ -24,7 +24,7 @@ std::vector<Layer> backgroundLayers;
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-const float playerSpeed = 300.0f; // pixels por segundo
+const float playerSpeed = 300.0f; 
 
 glm::mat4 projection;
 
@@ -39,10 +39,8 @@ void processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) movement.x -= playerSpeed * deltaTime;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) movement.x += playerSpeed * deltaTime;
 
-    // Move player
     player->setPosition(player->getPosition() + movement);
 
-    // Atualiza offset das camadas (parallax)
     for (auto& layer : backgroundLayers) {
         layer.offset -= movement * layer.parallaxFactor;
     }
@@ -53,20 +51,17 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 }
 
 void renderScene() {
-    glClearColor(0.5f, 0.7f, 1.0f, 1.0f); // fundo azul claro
+    glClearColor(0.5f, 0.7f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // Desenha camadas de fundo
     for (auto& layer : backgroundLayers) {
         layer.sprite->setPosition(layer.offset);
         layer.sprite->Draw(projection);
     }
 
-    // Desenha jogador
     player->Draw(projection);
 }
 
-// Função auxiliar para compilar shaders (simples)
 GLuint compileShader(const char* vertexSrc, const char* fragmentSrc);
 
 int main() {
@@ -98,7 +93,6 @@ int main() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // Vertex shader simples com offset e scale para UV
     const char* vertexShaderSrc = R"(
         #version 330 core
         layout(location = 0) in vec2 aPos;
@@ -134,7 +128,6 @@ int main() {
 
     shaderProgram = compileShader(vertexShaderSrc, fragmentShaderSrc);
 
-    // Cria camadas (troque os paths para suas texturas)
     Sprite* ceu = new Sprite(shaderProgram, "textures/ceu.png", 1, 1);
     Sprite* chao1 = new Sprite(shaderProgram, "textures/chao1.png", 1, 1);
     Sprite* chao2 = new Sprite(shaderProgram, "textures/chao2.png", 1, 1);
@@ -145,24 +138,22 @@ int main() {
     backgroundLayers.push_back(Layer(chao2, 0.7f));
     backgroundLayers.push_back(Layer(chao3, 1.0f));
 
-    ceu->setPosition(glm::vec2(400.0f, 300.0f));
-    ceu->setScale(glm::vec2(576.0f, 324.0f));  // cobre toda tela
+    ceu->setPosition(glm::vec2(400.0f, 00.0f));
+    ceu->setScale(glm::vec2(576.0f, 324.0f)); 
     chao1->setPosition(glm::vec2(400.0f, 300.0f));
-    chao1->setScale(glm::vec2(800.0f, 600.0f)); // cobre toda tela
+    chao1->setScale(glm::vec2(800.0f, 600.0f)); 
     chao2->setPosition(glm::vec2(400.0f, 300.0f));
-    chao2->setScale(glm::vec2(800.0f, 600.0f)); // cobre toda tela
+    chao2->setScale(glm::vec2(800.0f, 600.0f)); 
     chao3->setPosition(glm::vec2(400.0f, 300.0f));
-    chao3->setScale(glm::vec2(800.0f, 600.0f)); // cobre toda tela
+    chao3->setScale(glm::vec2(800.0f, 600.0f)); 
 
 
-    // Cria jogador
     player = new Sprite(shaderProgram, "textures/Spritesheet1.png", 1, 8);
     player->setPosition(glm::vec2(SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0f));
-    player->setScale(glm::vec2(100.0f, 100.0f)); // escala maior
+    player->setScale(glm::vec2(100.0f, 100.0f)); 
 
     projection = glm::ortho(0.0f, float(SCR_WIDTH), 0.0f, float(SCR_HEIGHT));
 
-    // Loop principal
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
@@ -176,7 +167,6 @@ int main() {
         glfwPollEvents();
     }
 
-    // Cleanup
     delete player;
     for (auto& layer : backgroundLayers) {
         delete layer.sprite;
@@ -188,7 +178,6 @@ int main() {
     return 0;
 }
 
-// Função simples para compilar shaders
 GLuint compileShader(const char* vertexSrc, const char* fragmentSrc) {
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexSrc, NULL);

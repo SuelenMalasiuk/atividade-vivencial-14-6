@@ -9,7 +9,7 @@ void main()
 {
     vec4 texColor = texture(spriteTexture, TexCoord);
     if(texColor.a < 0.1)
-        discard; // Transparência para evitar o fundo preto
+        discard;
 
     FragColor = texColor;
 }
