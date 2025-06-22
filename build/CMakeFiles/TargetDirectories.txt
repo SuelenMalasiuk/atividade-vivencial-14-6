@@ -1,0 +1,3 @@
+C:/Users/suele/Downloads/atividade_vivencial2/build/CMakeFiles/SpriteScene.dir
+C:/Users/suele/Downloads/atividade_vivencial2/build/CMakeFiles/edit_cache.dir
+C:/Users/suele/Downloads/atividade_vivencial2/build/CMakeFiles/rebuild_cache.dir
